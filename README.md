@@ -6,7 +6,7 @@ The same seed and settings always produce the same image. Every value is written
 
 ## Gallery
 
-Six random-seed demos (1920×1080 previews). Each file name holds the values used to generate it.
+Six single-color demos (1920×1080 previews). Each file name holds the values used to generate it.
 
 | Preview | Seed | Color |
 |---|---|---|
@@ -18,6 +18,15 @@ Six random-seed demos (1920×1080 previews). Each file name holds the values use
 | ![](docs/previews/demo_seed552_hexB388FF.png) | 552 | `#B388FF` |
 
 All six use the default settings: 16:9, padding 8, density 0.55, shading min 0.45 and max 1.0.
+
+Rainbow and multi-color blends, with the command that makes each one:
+
+| Preview | Command |
+|---|---|
+| ![](docs/previews/demo_seed7_rainbow-start277.3-span0.75-angle40.3.png) | `--seed 7 --rainbow` |
+| ![](docs/previews/demo_seed8_rainbow-start60.5-span0.75-angle239.3.png) | `--seed 8 --rainbow` |
+| ![](docs/previews/demo_seed6_hexFF2E88-00E5FF-FFD400_cseed3.png) | `--seed 6 --color "#FF2E88,#00E5FF,#FFD400" --color-seed 3` |
+| ![](docs/previews/demo_seed211_hexB388FF-39FF14-FF6A00-00E5FF_cseed5.png) | `--seed 211 --color "#B388FF,#39FF14,#FF6A00,#00E5FF" --color-seed 5` |
 
 ## Requirements
 
@@ -39,7 +48,7 @@ python3 wallpaper_generator.py -i
 python3 wallpaper_generator.py --seed 6 --color "#39FF14"
 ```
 
-The seed and a color (or `--rainbow`) are the only required values. Everything else has a default.
+The seed and a color (or `--rainbow`) are the only required values. In the menu, even the seed can be random. Everything else has a default.
 
 ## Color modes
 
@@ -85,19 +94,27 @@ python3 wallpaper_generator.py --seed 6 --rainbow --hue-start 200 --hue-angle 45
   7) Shading      : min 0.45  max 1
   8) Output folder: output
   File name       : pixels_wallpaper_8K_16-9_seed6_hexFF2E88-00E5FF_cseed3_density0.55_min0.45_max1_padding8.png
-  p) Preview in terminal (saves nothing)
-  g) Generate with these settings
-  q) Quit without generating
+  p) Preview in terminal (saves nothing)    c) Show the command for these settings
+  g) Generate and save (stay in the menu)   d) Reset everything except seed and color
+  s) Save these settings as a preset        l) Load a preset
+  q) Quit
 ```
 
-Option 3 adapts to the color mode: the color seed for a blend, or the start hue, span and direction for rainbow. Use `p` to preview in the terminal before generating.
+- **Stay and iterate:** `g` saves the image and returns to the menu with the same settings, so you can change only the seed and generate again.
+- **Fast preview:** `p` draws the dot layout and colors in the terminal without rendering the 8K image. It needs a terminal with 24-bit color.
+- **Repeat it later:** `c` (and every `g`) prints the exact command that reproduces the image, with values derived from the seed written out.
+- **Random seed:** in option 1, type `random` to draw one. The number is shown and used like any other seed.
+- **Colors:** hex (`#FF6A00`) or names (`red`, `teal`), up to 4 separated by commas, or `rainbow`.
+- **Option 3** adapts to the color mode: the color seed for a blend, or the start hue, span and direction for rainbow.
+- **Presets:** `s` saves all current settings under a name and `l` loads one. They are kept in `presets.json` next to the script (not tracked by git).
+- Ctrl+C or Ctrl+D at any prompt exits cleanly.
 
 ## Options
 
 | Option | Default | Description |
 |---|---|---|
 | `--seed N` | required | Non-negative integer. Decides where the dots are. |
-| `--color HEX` | required | `#39FF14`, or 2 to 4 hex colors separated by commas, or `rainbow`. |
+| `--color HEX` | required | `#39FF14` or a name like `red`; 2 to 4 colors separated by commas to blend them; or `rainbow`. |
 | `--rainbow` | off | Same as `--color rainbow`. |
 | `--color-seed N` | same as `--seed` | Blend mode: where each color sits. Moves colors without moving dots. |
 | `--hue-start DEG` | from seed | Rainbow: starting hue, 0 to 360. |
