@@ -1,0 +1,7 @@
+# Generated wallpapers (8K, too big for git)
+output/
+salida/
+
+# Python cache
+__pycache__/
+*.pyc
